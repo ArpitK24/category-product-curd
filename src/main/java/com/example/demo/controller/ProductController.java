@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.ProductResponseDTO;
 import com.example.demo.model.Product;
 import com.example.demo.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,14 +31,15 @@ public class ProductController {
         return new ResponseEntity<>(createdProduct, HttpStatus.CREATED);
     }
 
-    // GET product by id with category details
+ // GET product by id with category details
     @GetMapping("/{id}")
-    public ResponseEntity<Product> getProductById(@PathVariable("id") Long id) {
-        Product product = productService.getProductById(id);
-        return product != null 
-            ? new ResponseEntity<>(product, HttpStatus.OK) 
-            : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    public ResponseEntity<ProductResponseDTO> getProductById(@PathVariable Long id) {
+        ProductResponseDTO dto = productService.getProductById(id);
+        return dto != null
+                ? ResponseEntity.ok(dto)
+                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
 
     // PUT update product by id
     @PutMapping("/{id}")
